@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Team = sequelize.define('team', {
-    username: {
+    name: {
       type: DataTypes.STRING,
       unique: true,
     },

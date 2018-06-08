@@ -29,6 +29,9 @@ app.use(
     schema,
     context: {
       models,
+      user: {
+        id: 1,
+      },
     },
   }),
 );
