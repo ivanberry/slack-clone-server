@@ -1,14 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
-  const Team = sequelize.define(
-    'team',
-    {
-      username: {
-        type: DataTypes.STRING,
-        unique: true,
-      },
+  const Team = sequelize.define('team', {
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
     },
-    { underscored: true },
-  );
+  });
 
   Team.associate = (models) => {
     Team.belongsToMany(models.User, {
