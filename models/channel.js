@@ -15,6 +15,15 @@ module.exports = (sequelize, DataTypes) => {
         field: 'team_id',
       },
     });
+
+    // N:M
+    Channel.belongsToMany(models.User, {
+      through: 'channel_memeber',
+      foreignKey: {
+        name: 'ChannelId',
+        field: 'channel_id',
+      },
+    });
   };
 
   return Channel;
