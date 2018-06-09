@@ -21,10 +21,25 @@ const graphqlEndpoint = '/graphql';
 // const myGraphQLSchema = // ... define or import your schema here!
 const app = express();
 
+app.use('/graphql', bodyParser.json());
 // bodyParser is needed just for POST.
 app.use(
   '/graphql',
-  bodyParser.json(),
+  (req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header(
+      'Access-Control-Allow-Headers',
+      'content-type, authorization, content-length, x-requested-with, accept, origin',
+    );
+    res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.header('Allow', 'POST, GET, OPTIONS');
+    res.header('Access-Control-Allow-Origin', '*');
+    if (req.method === 'OPTIONS') {
+      res.sendStatus(200);
+    } else {
+      next();
+    }
+  },
   graphqlExpress({
     schema,
     context: {
@@ -35,7 +50,11 @@ app.use(
     },
   }),
 );
-app.use('/graphiql', graphiqlExpress({ endpointURL: graphqlEndpoint }));
+app.use(
+  '/graphiql',
+
+  graphiqlExpress({ endpointURL: graphqlEndpoint }),
+);
 
 models.sequelize.sync().then(() => {
   app.listen(8080);
