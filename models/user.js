@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: 'username only allow alphanumeric characters',
         },
-        Len: {
+        len: {
           args: [6, 20],
           msg: 'username length must be between 6 ~ 20',
         },
