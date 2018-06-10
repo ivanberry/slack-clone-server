@@ -17,6 +17,8 @@ export const createTokens = async (user, secret, secret2) => {
     },
   );
 
+  console.log([token, refreshToken]);
+
   return [token, refreshToken];
 };
 
@@ -49,12 +51,13 @@ export const tryLogin = async (email, password, models, SERCRET, SERCRET2) => {
   }
 
   const refreshTokenSecret = user.password + SERCRET2;
-  const [token, refreshToken] = createTokens(
+  const [token, refreshToken] = await createTokens(
     user,
     password,
     SERCRET,
     refreshTokenSecret,
   );
+
   return {
     ok: true,
     token,
