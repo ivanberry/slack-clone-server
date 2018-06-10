@@ -11,6 +11,9 @@ const resolvers = mergeResolvers(
   fileLoader(path.join(__dirname, './resolvers')),
 );
 
+const SECRET = 'kakakakakafjsadfjarjafjak';
+const SECRET2 = 'kakakafkak23498dfzz**';
+
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
@@ -47,6 +50,8 @@ app.use(
       user: {
         id: 1,
       },
+      SECRET,
+      SECRET2,
     },
   }),
 );
