@@ -17,8 +17,6 @@ export const createTokens = async (user, secret, secret2) => {
     },
   );
 
-  console.log([token, refreshToken]);
-
   return [token, refreshToken];
 };
 
