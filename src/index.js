@@ -28,10 +28,11 @@ const graphqlEndpoint = '/graphql';
 const app = express();
 
 const addUser = async (req, res, next) => {
-  const { token } = req.headers['x-token'];
+  const token = req.headers['x-token'];
   if (token) {
     try {
-      const { user } = jwt.verify(token, SECRET);
+      const { user } = jwt.decode(token, SECRET);
+      // test
       req.user = user;
     } catch (error) {
       const refreshToken = req.headers['x-refresh-token'];
