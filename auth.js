@@ -62,3 +62,45 @@ export const tryLogin = async (email, password, models, SERCRET, SERCRET2) => {
     refreshToken,
   };
 };
+
+export const refreshTokens = async (
+  token,
+  refreshToken,
+  models,
+  SERCRET,
+  SERCRET2,
+) => {
+  let userId = 0;
+  try {
+    const {
+      user: { id },
+    } = jwt.decode(refreshToken);
+    userId = id;
+  } catch (error) {
+    return {};
+  }
+  if (!userId) return {};
+
+  const user = await models.User.findOne({ where: { id: userId }, raw: true });
+  const refreshSecret = user.password + SERCRET2;
+  if (!user) return {};
+
+  try {
+    jwt.verify(refreshToken, refreshSecret);
+  } catch (error) {
+    return {};
+  }
+
+  const [newToken, newRefreshToken] = await createTokens(
+    user,
+    SERCRET,
+    refreshSecret,
+  );
+
+  return {
+    token,
+    newToken,
+    refreshToken: newRefreshToken,
+    user,
+  };
+};
