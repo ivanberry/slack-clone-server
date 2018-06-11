@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --inspect --exec babel-node index.js"
+    "start": "nodemon --exec babel-node src/index.js",
+    "build": "babel src -d dist --source-maps"
   },
   "keywords": [],
   "author": "",
