@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
+import cors from 'cors';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
 import { fileLoader, mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
@@ -21,28 +22,12 @@ const schema = makeExecutableSchema({
 
 const graphqlEndpoint = '/graphql';
 
-// const myGraphQLSchema = // ... define or import your schema here!
 const app = express();
 
 app.use('/graphql', bodyParser.json());
-// bodyParser is needed just for POST.
 app.use(
   '/graphql',
-  (req, res, next) => {
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header(
-      'Access-Control-Allow-Headers',
-      'content-type, authorization, content-length, x-requested-with, accept, origin',
-    );
-    res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-    res.header('Allow', 'POST, GET, OPTIONS');
-    res.header('Access-Control-Allow-Origin', '*');
-    if (req.method === 'OPTIONS') {
-      res.sendStatus(200);
-    } else {
-      next();
-    }
-  },
+  cors('*'),
   graphqlExpress({
     schema,
     context: {
