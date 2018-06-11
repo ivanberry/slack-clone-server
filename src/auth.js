@@ -51,7 +51,6 @@ export const tryLogin = async (email, password, models, SERCRET, SERCRET2) => {
   const refreshTokenSecret = user.password + SERCRET2;
   const [token, refreshToken] = await createTokens(
     user,
-    password,
     SERCRET,
     refreshTokenSecret,
   );
