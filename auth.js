@@ -27,7 +27,7 @@ export const tryLogin = async (email, password, models, SERCRET, SERCRET2) => {
       ok: false,
       errors: [
         {
-          path: 'password',
+          path: 'email',
           message: "User does't exist",
         },
       ],
