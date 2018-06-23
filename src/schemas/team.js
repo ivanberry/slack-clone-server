@@ -9,7 +9,7 @@ export default `
 
   type createTeamResponse {
     ok:Boolean!
-    team: Team!
+    team: Team
     errors: [Error!]
   }
 
