@@ -30,6 +30,62 @@ export default {
         }
       },
     ),
+    addTeamMember: requiresAuth.createResolver(
+      async (parent, { email, teamId }, { models, user }) => {
+        try {
+          const teamPromise = models.Team.findOne(
+            { where: { id: teamId } },
+            { raw: true },
+          );
+          const userToAddPromise = models.User.findOne(
+            {
+              where: { email },
+            },
+            { raw: true },
+          );
+
+          const [team, userToAdd] = await Promise.all([
+            teamPromise,
+            userToAddPromise,
+          ]);
+
+          if (!userToAdd) {
+            return {
+              ok: false,
+              errors: [
+                {
+                  path: 'user add',
+                  message: 'user can not found',
+                },
+              ],
+            };
+          }
+
+          if (team.owner !== user.id) {
+            return {
+              ok: false,
+              errors: [
+                {
+                  path: 'team invite',
+                  message: 'you cant not the team owner',
+                },
+              ],
+            };
+          }
+
+          await models.Member.create({ userId: userToAdd.id, teamId });
+
+          return {
+            ok: true,
+          };
+        } catch (err) {
+          return {
+            ok: false,
+            errors: formatErrors(err, models),
+          };
+        }
+      },
+    ),
   },
   Team: {
     // overwrite the default model property
