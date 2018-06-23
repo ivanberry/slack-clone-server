@@ -12,15 +12,18 @@ export default {
     createTeam: requiresAuth.createResolver(
       async (parent, args, { models, user }) => {
         try {
-          const team = await models.Team.create({ ...args, owner: user.id });
-          await models.Channel.create({
-            name: 'general',
-            public: true,
-            teamId: team.id,
+          const response = models.sequelize.transaction(async () => {
+            const team = await models.Team.create({ ...args, owner: user.id });
+            await models.Channel.create({
+              name: 'general',
+              public: true,
+              teamId: team.id,
+            });
+            return team;
           });
           return {
             ok: true,
-            team,
+            team: response,
           };
         } catch (err) {
           return {
@@ -54,7 +57,7 @@ export default {
               ok: false,
               errors: [
                 {
-                  path: 'user add',
+                  path: 'email',
                   message: 'user can not found',
                 },
               ],
@@ -66,7 +69,7 @@ export default {
               ok: false,
               errors: [
                 {
-                  path: 'team invite',
+                  path: 'owner',
                   message: 'you cant not the team owner',
                 },
               ],
