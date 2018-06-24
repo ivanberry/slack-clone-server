@@ -20,6 +20,7 @@ export default `
 
   type Query {
     allTeams: [Team!]!
+    inviteTeams: [Team!]!
   }
 
   type Mutation {
