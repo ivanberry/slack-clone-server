@@ -10,4 +10,7 @@ export default {
       }
     },
   },
+  Query: {
+    messages: async (parent, args, { models, user }) => [],
+  },
 };
