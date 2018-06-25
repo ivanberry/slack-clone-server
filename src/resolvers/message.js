@@ -11,6 +11,15 @@ export default {
     },
   },
   Query: {
-    messages: async (parent, args, { models, user }) => [],
+    messages: async (parent, { channelId }, { models }) =>
+      models.Message.findAll(
+        { order: [['created_at', 'ASC']] },
+        { where: { channelId } },
+        { raw: true },
+      ),
+  },
+  Message: {
+    user: ({ userId }, args, { models }) =>
+      models.User.findOne({ where: { id: userId } }, { raw: true }),
   },
 };
