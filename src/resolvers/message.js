@@ -54,8 +54,6 @@ export default {
               user: currentUser.dataValues,
             };
 
-            console.log(newChannelMessage);
-
             pubsub.publish(NEW_CHANNEL_MESSAGE, {
               channelId: args.channelId,
               newChannelMessage,
