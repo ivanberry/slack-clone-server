@@ -33,6 +33,11 @@ export default {
               public: true,
               teamId: team.id,
             });
+            await models.Member.create({
+              teamId: team.id,
+              userId: user.id,
+              admin: true,
+            });
             return team;
           });
           return {

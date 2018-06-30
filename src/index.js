@@ -83,14 +83,6 @@ app.use(
   }),
 );
 
-// const validateToken = (token) => {
-//   return false;
-// };
-
-// const findUser = (token) => {
-//   return false;
-// };
-
 const server = createServer(app);
 models.sequelize.sync().then(() => {
   server.listen(8080, () => {
